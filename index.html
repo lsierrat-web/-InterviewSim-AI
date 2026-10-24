@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewSim AI - Plataforma Inteligente de Entrevistas</title>
+    
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SDK de Firebase para Base de Datos -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- Hoja de Estilos Externa -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="fa-solid fa-comments" style="color: white; font-size: 1.2rem;"></i>
+            </div>
+            <div class="logo-text">
+                <h1>InterviewSim AI</h1>
+                <span>Simulación Adaptativa de Entrevistas</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main>
+
+        <!-- SECCIÓN 1: BIENVENIDA Y CONFIGURACIÓN -->
+        <section id="sec-inicio" class="section-view active">
+            <div class="hero">
+                <h2>Pasa de los nervios a la confianza en tu entrevista</h2>
+                <p>Pon a prueba tu perfil con escenarios adaptativos y descubre qué tan preparado estás para el mercado laboral.</p>
+            </div>
+
+            <!-- BANNER DE ESTADÍSTICAS Y PRUEBA SOCIAL -->
+            <div class="social-proof-bar">
+                <div class="stat-pill">
+                    <i class="fa-solid fa-graduation-cap"></i> <span>+500 Simulaciones Realizadas</span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fa-solid fa-building-columns"></i> <span>+9 Áreas Académicas</span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fa-solid fa-robot"></i> <span>Evaluación Impulsada por IA</span>
+                </div>
+            </div>
+
+            <!-- BANNER DE CARACTERÍSTICAS / BENEFICIOS -->
+            <div class="features-banner">
+                <div class="feature-item">
+                    <i class="fa-solid fa-camera"></i>
+                    <div>
+                        <strong>📹 Práctica con Cámara</strong>
+                        <span>Monitoreo de lenguaje corporal en tiempo real.</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <div>
+                        <strong>🧠 Detección de Nervios</strong>
+                        <span>Análisis de muletillas y fluidez verbal.</span>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-database"></i>
+                    <div>
+                        <strong>💾 Registro de Progreso</strong>
+                        <span>Historial guardado en la nube en tiempo real.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VISTA EN 2 COLUMNAS -->
+            <div class="main-grid-layout">
+                <!-- COLUMNA IZQUIERDA: TARJETAS CON LAS ENTREVISTADORAS -->
+                <div class="interviewers-info-card">
+                    <h3><i class="fa-solid fa-users-viewfinder"></i> Conoce a tus Entrevistadoras</h3>
+                    <p style="font-size: 0.85rem; color: var(--texto-mutado); margin-bottom: 1.2rem;">
+                        Selecciona el nivel de la entrevista para interactuar con la entrevistadora virtual asignada:
+                    </p>
+
+                    <div class="interviewer-mini-card">
+                        <img src="img/avatar1.png" alt="Sofia">
+                        <div>
+                            <strong>Sofia — Nivel 1</strong>
+                            <span class="difficulty-badge level-easy">Filtro Inicial</span>
+                            <p>Conceptos clave, perfil académico y primera impresión profesional.</p>
+                        </div>
+                    </div>
+
+                    <div class="interviewer-mini-card">
+                        <img src="img/avatar2.png" alt="Elena">
+                        <div>
+                            <strong>Elena — Nivel 2</strong>
+                            <span class="difficulty-badge level-mid">Intermedio</span>
+                            <p>Situaciones de oficina, trabajo colaborativo y dinámicas de equipo.</p>
+                        </div>
+                    </div>
+
+                    <div class="interviewer-mini-card">
+                        <img src="img/avatar3.png" alt="Valeria">
+                        <div>
+                            <strong>Valeria — Nivel 3</strong>
+                            <span class="difficulty-badge level-hard">Avanzado</span>
+                            <p>Toma de decisiones críticas, liderazgo y resolución de casos complejos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMNA DERECHA: FORMULARIO -->
+                <div class="form-card">
+                    <h3 style="color: var(--color-principal); margin-bottom: 1rem; font-size: 1.2rem; text-align: center;">
+                        Configura tu Simulación
+                    </h3>
+
+                    <div class="form-group">
+                        <label for="nombre"><i class="fa-solid fa-user icon-label"></i> Nombre Completo:</label>
+                        <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="carrera"><i class="fa-solid fa-graduation-cap icon-label"></i> Carrera / Área Académica:</label>
+                        <select id="carrera" onchange="actualizarPuestos()">
+                            <option value="Administración de Empresas">Administración de Empresas</option>
+                            <option value="Contaduría Pública">Contaduría Pública</option>
+                            <option value="Administración Financiera">Administración Financiera</option>
+                            <option value="Negocios Internacionales">Negocios Internacionales</option>
+                            <option value="Ingeniería de Software">Ingeniería de Software</option>
+                            <option value="Ingeniería de Sistemas">Ingeniería de Sistemas</option>
+                            <option value="Ciencia de Datos e IA">Ciencia de Datos e IA</option>
+                            <option value="Ciberseguridad y Redes">Ciberseguridad y Redes</option>
+                            <option value="Diseño UX/UI y Producto">Diseño UX/UI y Producto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cargo"><i class="fa-solid fa-briefcase icon-label"></i> Puesto / Cargo Objetivo:</label>
+                        <select id="cargo"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nivel"><i class="fa-solid fa-crosshairs icon-label"></i> Nivel Inicial de Simulación:</label>
+                        <select id="nivel">
+                            <option value="1">Nivel 1 - Entrevistadora Sofia (Filtro Inicial)</option>
+                            <option value="2">Nivel 2 - Entrevistadora Elena (Situacional y Oficina)</option>
+                            <option value="3">Nivel 3 - Entrevistadora Valeria (Liderazgo y Casos)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;" onclick="iniciarSimulacion()">
+                        <i class="fa-solid fa-play"></i> Iniciar Simulación
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: INTERFAZ DEL SIMULADOR CON CÁMARA WEB Y ENTREVISTADORA -->
+        <section id="sec-simulador" class="section-view">
+            <div class="sim-header">
+                <div>
+                    <span class="badge-level" id="display-nivel">Nivel 1</span>
+                    <span id="display-cargo" style="margin-left: 10px; font-weight: 500; color: var(--texto-mutado);">Cargo</span>
+                </div>
+                <div class="timer">
+                    <i class="fa-regular fa-clock"></i> <span id="tiempo">02:00</span>
+                </div>
+            </div>
+
+            <!-- PANEL DE VIDEOLLAMADA: CÁMARA Y AVATAR -->
+            <div class="video-call-grid">
+                <!-- VISTA PREVIA DE LA CÁMARA WEB DEL USUARIO -->
+                <div class="webcam-card">
+                    <video id="webcam-feed" autoplay playsinline muted></video>
+                    <span class="webcam-label"><i class="fa-solid fa-video"></i> Tu Cámara en Vivo</span>
+                </div>
+
+                <!-- CONTENEDOR DE LA ENTREVISTADORA Y PREGUNTA -->
+                <div class="interviewer-container">
+                    <div class="avatar-frame">
+                        <img id="avatar-img" src="img/avatar1.png" alt="Entrevistadora IA">
+                    </div>
+                    
+                    <div class="question-box">
+                        <h3 style="color: var(--color-principal); margin-bottom: 0.5rem;" id="pregunta-titulo">Bienvenida</h3>
+                        
+                        <!-- NUEVO: Indicador de IA Pensando -->
+                        <div id="thinking-indicator" style="display: none; color: var(--color-secundario); font-size: 0.95rem; font-style: italic; margin-bottom: 0.8rem;">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i> Analizando respuesta y generando pregunta...
+                        </div>
+
+                        <p id="pregunta-texto" style="font-size: 1.05rem; color: var(--texto-oscuro); margin-bottom: 0.8rem;">Cargando saludo formal...</p>
+                        
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <button class="audio-trigger" onclick="leerPreguntaEnVozAlta()">
+                                <i class="fa-solid fa-volume-high"></i> Escuchar Audio (IA)
+                            </button>
+                            <!-- NUEVO: Botón de Repetir Pregunta -->
+                            <button id="btn-repetir" class="audio-trigger" onclick="repetirPregunta()" style="background-color: var(--color-alerta); color: #fff; display: none;">
+                                <i class="fa-solid fa-rotate-right"></i> No escuché, ¿puedes repetir?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTROLES DE AUDIO Y RESPUESTA -->
+            <div class="mic-control-box">
+                <button id="btn-mic" class="btn-mic" onclick="alternarGrabacionAudio()">
+                    <i class="fa-solid fa-microphone" id="mic-icon"></i> <span id="mic-btn-text">Responder por Audio</span>
+                </button>
+                <span id="mic-status" class="mic-status">Haz clic en el micrófono para hablar</span>
+            </div>
+
+            <div class="form-group">
+                <label for="respuesta"><i class="fa-solid fa-pen-to-square icon-label"></i> Transcripción de Tu Respuesta:</label>
+                <textarea id="respuesta" class="response-input" placeholder="Escribe o habla por micrófono..."></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span id="progreso-preguntas" style="font-size: 0.9rem; color: var(--texto-mutado);">Preparación Inicial</span>
+                <button class="btn btn-primary" id="btn-siguiente" onclick="siguientePregunta()">
+                    Comenzar Preguntas <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: RESULTADOS Y ANÁLISIS DE NERVIOSISMO -->
+        <section id="sec-resultados" class="section-view">
+            <h2 style="color: var(--color-principal); border-bottom: 2px solid var(--fondo-gris); padding-bottom: 0.5rem;">
+                Informe de Valoración de Desempeño
+            </h2>
+
+            <div class="results-grid">
+                <div class="score-card">
+                    <h4 style="color: var(--color-principal);">Índice de Preparación</h4>
+                    <div id="score-circle" class="score-circle score-low">
+                        <span id="score-valor">0%</span>
+                    </div>
+                    <p id="score-status" style="font-weight: 600;">Analizando...</p>
+                    <small id="candidate-name" style="color: var(--texto-mutado); display:block; margin-top: 5px;"></small>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 1rem; color: var(--color-principal);">Desglose por Competencias</h3>
+                    
+                    <div class="rubric-item">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Dominio Técnico / Área</span>
+                            <strong id="score-tecnico">0%</strong>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="bar-tecnico" class="progress-bar-fill" style="width: 0%; background-color: var(--color-interactivo);"></div>
+                        </div>
+                    </div>
+
+                    <div class="rubric-item">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Comunicación y Estructura Verbal</span>
+                            <strong id="score-comunicacion">0%</strong>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="bar-comunicacion" class="progress-bar-fill" style="width: 0%; background-color: var(--color-acento-1);"></div>
+                        </div>
+                    </div>
+
+                    <div class="rubric-item">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Gestión de Problemas y Criterio</span>
+                            <strong id="score-resolucion">0%</strong>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div id="bar-resolucion" class="progress-bar-fill" style="width: 0%; background-color: var(--color-secundario);"></div>
+                        </div>
+                    </div>
+
+                    <!-- INDICADOR DE ANÁLISIS DE NERVIOSISMO -->
+                    <div style="background: #FEF3C7; border-left: 4px solid var(--color-alerta); padding: 1rem; border-radius: 4px; margin-top: 1.2rem;">
+                        <h4 style="color: #92400E;"><i class="fa-solid fa-heart-pulse"></i> Análisis de Nerviosismo y Seguridad Verbal:</h4>
+                        <p id="feedback-nervios" style="font-size: 0.95rem; color: #78350F; margin-top: 0.4rem;"></p>
+                    </div>
+
+                    <!-- RETROALIMENTACIÓN ADAPTATIVA GENERAL -->
+                    <div style="background: var(--color-fondo-caja); border-left: 4px solid var(--color-principal); padding: 1rem; border-radius: 4px; margin-top: 1.2rem;">
+                        <h4 style="color: var(--color-principal);">Retroalimentación Adaptativa:</h4>
+                        <p id="feedback-texto" style="font-size: 0.95rem; color: var(--texto-oscuro); margin-top: 0.5rem;"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="reiniciar()">
+                    <i class="fa-solid fa-rotate-right"></i> Intentar Nueva Simulación
+                </button>
+                <!-- NUEVO: Botón de Descargar Reporte -->
+                <button class="btn" onclick="descargarReporteTXT()" style="background-color: var(--color-acento-1); color: white;">
+                    <i class="fa-solid fa-file-arrow-down"></i> Descargar Feedback
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>InterviewSim AI &copy; 2026 - Proyecto de Investigación CIPPA | Universidad de Cartagena</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
